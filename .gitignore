@@ -1,0 +1,5 @@
+# python virtual environment
+venv/
+
+# we omit this unless we are pushing a new production build
+dist/
