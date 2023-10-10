@@ -1,5 +1,8 @@
 # python virtual environment
 venv/
 
+# temp files from flask
+__pycache__/
+
 # we omit this unless we are pushing a new production build
 dist/
