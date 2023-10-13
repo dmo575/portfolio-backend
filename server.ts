@@ -1,28 +1,31 @@
-
 async function handler(req: Request) {
 
-    //open a file, will be loaded onto a file data stream
-    const file = await Deno.open('./hello.html');
-    // get info on it
-    const stats = await file.stat();
+    const url = new URL(req.url);
+    const path = url.pathname;
 
-    // if its a file
-    if(stats.isFile) {
+    console.log("PATH: " + path);
 
-        // create a buffer so we can read onto it, 16 bytes
-        const buffer = new Uint8Array(16);
-        // this function will read onto buffer, then return the number of bytes read
-        const num = await file.read(buffer);
+    // create stream to file
+    const stream = await Deno.open(path == "/" ? "image_page.html" : path.substring(1,));
 
-        // log it
-        console.log(`bytes read: ${num} \n data: ${buffer}`);
-    }
+    console.log("STREAM: " + stream);
 
-    // close the file stream
-    file.close();
+    // get file stats
+    const stat = await stream.stat();
 
-    // yesyes
-    return new Response('200OKEOKE');
+    // set buffer to file size
+    const buffer = new Uint8Array(stat.size);
+
+    // read whole file onto buffer
+    await stream.read(buffer);
+
+    // close file
+    stream.close();
+
+    // send buffer contents (file)
+    return new Response(buffer);
 }
 
-Deno.serve({port: 9000}, handler);
+
+
+Deno.serve({port: 8000}, handler);
