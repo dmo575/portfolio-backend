@@ -9,4 +9,7 @@ dist/images/
 dist/JSON/
 dist/markdown/
 
+# for now we will ignore the whole thing
+dist/
+
 .vscode/*

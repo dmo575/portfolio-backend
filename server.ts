@@ -1,40 +1,34 @@
-// simple server that ensures all requesetd files from the client are properly sent.
+/** Description:
+ * Simple server that ensures all requesetd files from the client are properly sent.
+ * 
+ * Server that handles HTTP requests on port 80.
+ * 
+ * Its designed to only allow GET requests.
+ * 
+ * Paths should come with an explicit file format at the end, else the server will assume you want an .html. Examples:
+ * 
+ * my/path/file.png     - Server will look for my/path/file.png
+ * other/path/some      - Server will look for other/path/some.html
+ * words/hre/hello/     - Server will look for words/hre/hello.html
+ * /                    - Server will look for index.html by default when encountering a path value of "/" alone
+ * 
+ * The server is set up to work with a root directory:
+ * - Make sure you write the root directory relative to where this file is
+ * - Make sure you dont end your root directory variable with the "/" symbol
+ * - Make sure all your files are relative to that root directory
+ * - Make sure your index.html is directly inside that root directory (although you can change index.html by modifying the index constant)
+ * 
+ * If you have MIME errors with some types, make sure the types you are working with are all properly included inside the get_content_type function.
+ * 
+ * When running the file, make sure you give write and network permissions (--allow-net --allow-write)
+ * 
+ */
 
-// defined the root directory where we serve files from.
+
+// constants
 const root = "./dist";
 const index = "index.html";
-
-/* 
-async function handle_get(req: Request) {
-
-    const headers = new Headers();
-    let contentType = "";
-
-    // get URL (we use the URL object for easy parsing)
-    const url = new URL(req.url);
-
-    // pattern we will use to scan the URL for a file format
-    const fileExt = new URLPattern({
-        pathname: "*.:format"
-    });
-
-    // get any matches to our pattern
-    const matches = fileExt.exec(url);
-    
-    if(matches) {
-
-        contentType = get_content_type(matches.pathname.groups.format);
-        headers.append("content-type", contentType);
-    }
-    
-    // get path
-    const path = (root + (url.pathname == "/" ? index : url.pathname));
-
-
-    return new Response(await get_file(path), {
-        headers: headers
-    });
-} */
+const port = 3000;
 
 
 async function get_file(path: string) {
@@ -60,9 +54,10 @@ async function get_file(path: string) {
 
 
 function get_content_type(format: string | undefined): string {
-
+    
     let contentType = "uknown";
-
+    
+    // add here any content-type you need to work with
     switch(format) {
 
         case "js":
@@ -146,4 +141,4 @@ async function handle_http(req: Request) {
 }
 
 
-Deno.serve({port: 3000}, handle_http);
+Deno.serve({port: port}, handle_http);
