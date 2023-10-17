@@ -1,8 +1,0 @@
-# python virtual environment
-venv/
-
-# temp files from flask
-__pycache__/
-
-
-.vscode/*
