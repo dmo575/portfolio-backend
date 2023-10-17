@@ -4,12 +4,5 @@ venv/
 # temp files from flask
 __pycache__/
 
-# we omit this unless we are pushing a new production build
-dist/images/
-dist/JSON/
-dist/markdown/
-
-# for now we will ignore the whole thing
-dist/
 
 .vscode/*
