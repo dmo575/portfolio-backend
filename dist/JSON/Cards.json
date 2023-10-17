@@ -1,0 +1,78 @@
+{
+    "cards": [
+        {
+            "title": "Portfolio website",
+            "srcL": "./images/portfolio_L.jpg",
+            "srcS": "./images/portfolio_S.jpg",
+            "description": "./markdown/portfolio_desc.md",
+            "tech": [
+                "javascript",
+                "html",
+                "css",
+                "bootstrap",
+                "deno",
+                "git",
+                "github"
+            ],
+            "content": "./markdown/portfolio.md",
+            "links": [
+                {"name": "Check code (client)", "url": "https://github.com/dmo575/portfolio" },
+                {"name": "Check code (server)", "url": "https://github.com/dmo575/portfolio-backend" }
+            ]
+        },
+        {
+            "title": "Calculator master",
+            "srcL": "./images/calculatormaster_L.jpg",
+            "srcS": "./images/calculatormaster_S.jpg",
+            "description": "./markdown/calculatormaster_desc.md",
+            "tech": [
+                "javascript",
+                "html",
+                "css",
+                "python",
+                "flask",
+                "sqlite",
+                "git",
+                "github"
+            ],
+            "content": "./markdown/calculatormaster.md",
+            "links": [
+                {"name": "See it live", "url": "http://146.190.125.135:80" },
+                {"name": "Check code", "url": "https://github.com/dmo575/CalculatorMaster" }
+            ]
+        },
+        {
+            "title": "MyMovies",
+            "srcL": "./images/mymovies_L.jpg",
+            "srcS": "./images/mymovies_S.jpg",
+            "description": "./markdown/mymovies_desc.md",
+            "tech": [
+                "javascript",
+                "html",
+                "css",
+                "python",
+                "flask",
+                "sqlite"
+            ],
+            "content": "./markdown/mymovies.md",
+            "links": [
+                {"name": "See video", "url": "https://www.youtube.com/watch?v=HkbZu71cfN8" },
+                {"name": "Check code", "url": "https://github.com/dmo575/mymovies" }
+            ]
+        },
+        {
+            "title": "My old game dev portfolio",
+            "srcL": "./images/gameportfolio_L.jpg",
+            "srcS": "./images/gameportfolio_S.jpg",
+            "description": "./markdown/arc_desc.md",
+            "tech": [
+                "webflow"
+            ],
+            "content": "./markdown/arc.md",
+            "links": [
+            ],
+            "skipTo": "https://arc-gameworks.webflow.io/"
+        }
+        
+    ]
+}
