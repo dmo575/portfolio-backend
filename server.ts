@@ -28,7 +28,7 @@
 // constants
 const root = "./dist";
 const index = "index.html";
-const port = 443;
+const port = 80;
 
 
 async function get_file(path: string) {
