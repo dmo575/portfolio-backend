@@ -82,6 +82,9 @@ function get_content_type(format: string | undefined): string {
         case "css":
             contentType = "text/css"
             break;
+        case "pdf":
+            contentType = "application/pdf"
+            break;
     }
 
     return contentType;
