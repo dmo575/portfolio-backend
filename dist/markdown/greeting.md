@@ -1,4 +1,4 @@
-I'm Alfredo, a **$$Front-end Junior web developer** who loves bringing websites to life with the help of React, Bootstrap and the big three (JS/HTML/CSS).
+I'm Alfredo, a **$$Web developer** who loves bringing websites to life with the help of React, Bootstrap and the big three (JS/HTML/CSS).
 
 
 I also enjoy **$$$learning** about Back-end and **$$$anything** tech really (Linux, game engines, you name it!)
