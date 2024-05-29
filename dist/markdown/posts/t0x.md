@@ -253,7 +253,7 @@ public void http_servlet(HttpServletResponse response) throws IOException {
 
 Note how much more cumbersome it becomes to manage the response when going to servlet level. You now have to deal with possible IOExceptions, you have to remember to add the HttpServletResponse argument in the endpoint signature, and it looks more cryptic overall. Also note that now the return type is void, unintuitive.
 
-However this way of doing things has **such an advantage** to it. Notice again how **you do not need to return anything**. This will come in very handy when we go over the REST and MVC sections.
+It is good to know the option is there and that you can use it but I would recommend ResponseEntity over this method.
 
 We now know how to return HTTP messages from our endpoints. Now all that is left is to go and further research the ResponseEntity class.
 
@@ -265,7 +265,7 @@ Rest is really simple:
 - Use `@Controller`
 - Use `@RequestMapping`
 - Use `@ResponseBody` on the endpoind methods. This will let Spring know that whatever you return is to be placed in the body of the HTTP response.
-- In addition, we use the `@ResponseStatus` annotation to have control over the status code we return.
+- In addition, we use the `@ResponseStatus` annotation to have control over the status code we return if everything goes well (we will cover what to do if everything doesn't go well at the end)
 
 ```
 @Controller
@@ -285,15 +285,15 @@ Let's go over that code:
 - Spring knows about the Controller so it can scan for endpoints.
 - Spring can identify the endpoint because of the `@RequestMapping`.
 - Spring knows that the return value of that method is to be placed inside the response body because of `@ResponseBody`.
-- Spring also knows what status code to use if everything goes according to plan because of `@ResponseStatus`.
+- Spring also knows what status code to use if everything goes fine with the method because of `@ResponseStatus`.
 - Finally, we also know that Spring can JSONify the object we are returning, and that is exactly what it will do because that is what Spring is configured to do when serializing objects into an HTTP body.
 
-Knowing all that, it is time to introduce a new annotation: `@RestController`
+Knowing all that, it is time to introduce a new annotation: `@RESTController`
 
-The `@RestController` annotation combines both `@Controller` and `@ResponseBody` at a class level, which means that we no longer have to add `@ResponseBody` to every endpoint method:
+The `@RESTController` annotation combines both `@Controller` and `@ResponseBody` at a class level, which means that we no longer have to add `@ResponseBody` to every endpoint method:
 
 ```
-@RestController
+@RESTController
 public class MyClass {
 
 	@RequestMapping(path="/", method=RequestMethod.GET)
@@ -305,39 +305,6 @@ public class MyClass {
 }
 ```
 
-We are still missing some features however. We have no way of messing with the response headers, nor we have a way to determine which status code to return at run-time.
-
-Good news is; for us to solve that problem all we have to do is add something we already covered: `HttpServletResponse`.
-
-Remember `HttpServletResponse`? It is the third approach to dealing with HTTP. Why do you think it is so useful here? Because with this REST setup we have going on, the return type is set to be serialized into the response body, so we need a way to handle the rest of the HTTP response that doesn't involve us returning anything from the method, and that is exactly what `HttpServletResponse` let us do:
-
-```
-@RestController
-public class MyClass {
-
-	@RequestMapping(path="/", method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.CREATED)
-	public Animal index(HttpServletResponse response) {
-		Animal a = new Animal("Cow");
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setHeader("my-header", "my-value");
-		return a;
-	}
-}
-```
-
-On that snippet above we changed the response from 201-CREATED to 200-OK and also added a header of our own.
-
-## ###################### returning different 
-
-**An alternative to building RESTful endpoints**
-
-Alternatively, we could just do all that with the things we learnt about HTTP earlier. We can just use `ResponseEntity<T>` alongside the `<?>` generic to do exactly the same thing
-
-**Adjusting for change: REST**
-You may have noticed that with the current set up we don't have a lot of 
-
-You may have noticed that with this set up, we don't really have a way of changing the status code inside the method. We use that `@ResponseStatus` and call it a day. This is something we will tackle in the **Adjusting for change** section. If you think about it you already have the tools, but we will be eplicitly covering it later.
 
 ### **MVC**
 
@@ -490,33 +457,18 @@ As a note, you can do `www.page.com/subfolder/index.html` on your browser and it
 There are security dependencies out there to prevent this from happening.
 
 
-### **Adjusting for change**
-
-
-```
-REST
-Method can just go and use ResponseEntity<?>
-
-MVC:
-@ResponseStatus(200)
-ModelAndView method() {
-	ModelAndView maw;
-
-	...
-
-	return maw;
-}
-```
+### **When things go wrong**
+We know how to handle HTTP responses of any type. After all we have complete access to the status code in those cases. But what about REST? Do we know how to handle errors with REST? And MVC?
 
 
 **The wrong approach**
 
-Let's start with REST. Maybe we could just use a `ResponseEntity<T>` with REST... You may be thinking "But I am using `@RestController` which makes it so that my endpoints' return value cannot be a `ResponseEntity<T>` object, how could that work?" Well, even if you are using `@RestController` for the class or a `@ResponseBody` for the method (Which you could just remove in such a case but anyways), if you return a `ResponseEntity<T>`, Spring will scrap the `@ResponseBody` annotation and will think that you want to return the whole HTTP response.
+Let's start with REST. Maybe we could just use a `ResponseEntity<T>` with REST... You may be thinking "But I am using `@RESTController` which makes it so that my endpoints' return value cannot be a `ResponseEntity<T>` object, how could that work?" Well, even if you are using `@RESTController` for the class or a `@ResponseBody` for the method (Which you could just remove in such a case but anyways), if you return a `ResponseEntity<T>`, Spring will scrap the `@ResponseBody` annotation and will think that you want to return the whole HTTP response.
 
 Let's try it:
 
 ```
-@RestController
+@RESTController
 public class MyClass {
 
 	@RequestMapping(path="/rest_wrong_2", method=RequestMethod.GET)
@@ -535,7 +487,7 @@ public class MyClass {
 }
 ```
 
-Take a look at the controller annotation; it is a `@RestController` annotation, which adds the `@ResponseBody` to all the class' endpoints. Not only that but we also added a `@ResponseBody` in there just for fun. Will we get an error now that we are returning `ResponseEntity<Animal>`? Will we return an HTML response inside an HTML response body? Nah, Spring will just omit that `@RestController` and `@ResponseBody` and will assume you want to take over the whole HTTP response.
+Take a look at the controller annotation; it is a `@RESTController` annotation, which adds the `@ResponseBody` to all the class' endpoints. Not only that but we also added a `@ResponseBody` in there just for fun. Will we get an error now that we are returning `ResponseEntity<Animal>`? Will we return an HTML response inside an HTML response body? Nah, Spring will just omit that `@RESTController` and `@ResponseBody` and will assume you want to take over the whole HTTP response.
 
 However... if you take a look at that code, you will notice that there is no way for us to return anything but an `Animal` in that response body, even if things go wrong. This is because the return type of the method dictates that the body must contain an `Animal` instance, and we cannot change that. Then, what can we do? Do not despair my friend for I shall teach thee of the righteous path to error handling.
 
@@ -561,7 +513,7 @@ Let's look at an example.
 Here is a RESTful API with one endpoint and one exception handler:
 
 ```
-@RestController
+@RESTController
 public class MyRestController {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -686,7 +638,7 @@ You now should know how to properly create endpoints for your Spring Boot applic
 
 **Annotations**
 - `@Controller`: Class-level. Tells Spring the class is a controller
-- `@RestController`: Class-level. Combines `@Controller` and `@ResponseBody`
+- `@RESTController`: Class-level. Combines `@Controller` and `@ResponseBody`
 - `@RequestMapping`: Class/Method-level (we only covered method-level). Lets Spring know the path and HTTP verb the designated endpoint is to work with.
 - `@RequestBody`: Field-level. Tells Spring to try to deserialize the request body into the designated variable.
 - `@RequestHeader`: Field-level. Tells Spring to populate designated variable with value of specified header.
