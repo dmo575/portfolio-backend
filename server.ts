@@ -28,7 +28,8 @@
 // constants
 const root = "./dist";
 const index = "index.html";
-const port = 80;
+const port = 8000;
+const records =  "./records.log";
 
 
 async function get_file(path: string) {
@@ -63,7 +64,7 @@ function get_content_type(format: string | undefined): string {
         case "js":
             contentType = "text/javascript"
             break;
-        case "html":
+        case "html": 
             contentType = "text/html"
             break;
         case "json":
@@ -85,6 +86,9 @@ function get_content_type(format: string | undefined): string {
         case "pdf":
             contentType = "application/pdf"
             break;
+        case "md":
+            contentType = "text/markdown"
+            break;
     }
 
     return contentType;
@@ -100,7 +104,6 @@ async function handle_http(req: Request) {
 
     // add root to path
     url.pathname = `${root}${url.pathname}`;
-
 
     // pattern that extracts file format from a path
     const patFileSigned = new URLPattern({
@@ -130,6 +133,11 @@ async function handle_http(req: Request) {
     const headers = new Headers();
     headers.append("content-type", get_content_type(format));
 
+    // :D
+    if(format == "html" || format == "md") {
+        record_visit(url.toJSON(), format);
+    }
+
     // try to get the file
     try {
         const file = await get_file(`.${url.pathname}`);
@@ -143,5 +151,76 @@ async function handle_http(req: Request) {
     }
 }
 
+// This just saves what pages the clients visit
+async function record_visit(requested_path: string, format: string) {
+
+    // I blacklisted some URLs to avoid cluttering the records.log file
+    if(!whitelist_Url(requested_path)) return;
+
+    // get the date
+    const date = new Date();
+    const date_year = date.getFullYear();
+    const date_month = date.getMonth();
+    const date_month_string = parse_month(date_month);
+    const date_day = date.getDate();
+    const date_hour = date.getHours();
+    const date_minute = date.getMinutes();
+    const date_seconds = date.getSeconds();
+
+    // date in string form
+    const date_string = "[" + date_year + " " + date_month_string + " " + date_day + ", " + date_hour + ":" + date_minute + ":" + date_seconds + "]";
+
+    // create record (date + resource requested)
+    const record = date_string + " type=" + format.toUpperCase() + (format.length < 4 ? "  " :  "") + " URL=" + requested_path + "\n";
+
+    // encode record to Uint8Array which is what Deno.writeFile accepts.
+    const encoder = new TextEncoder();
+    const record_encoded = encoder.encode(record);
+
+    // record it
+    await Deno.writeFile(records, record_encoded, { append: true });
+}
+
+// returns the string abreviature of a month
+function parse_month(date:number): string {
+    switch(date) {
+        case 0:
+            return "Jan";
+        case 1:
+            return "Feb";
+        case 2:
+            return "Mar";
+        case 3:
+            return "Apr";
+        case 4:
+            return "May";
+        case 5:
+            return "Jun";
+        case 6:
+            return "Jul";
+        case 7:
+            return "Aug";
+        case 8:
+            return "Sep";
+        case 9:
+            return "Oct";
+        case 10:
+            return "Nov";
+        case 11:
+            return "Dec";
+    }
+
+    return "unknown (" + date + ")";
+}
+
+// choppy whitelist function to reduce cluster in records.log
+function whitelist_Url(url: string): boolean {
+
+    if(url.includes("_desc.md") || url.includes("Linkedin.html") || url.includes("Github.html") || url.includes("greeting") || url.includes("postId")) {
+        return false;
+    }
+
+    return true;
+}
 
 Deno.serve({port: port}, handle_http);
