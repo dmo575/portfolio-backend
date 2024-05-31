@@ -133,7 +133,7 @@ async function handle_http(req: Request) {
     const headers = new Headers();
     headers.append("content-type", get_content_type(format));
 
-    // :D
+    // record visit (time and resource requested)
     if(format == "html" || format == "md") {
         record_visit(url.toJSON(), format);
     }
