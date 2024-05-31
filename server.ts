@@ -216,9 +216,12 @@ function parse_month(date:number): string {
 // choppy whitelist function to reduce cluster in records.log
 function whitelist_Url(url: string): boolean {
 
-    if(url.includes("_desc.md") || url.includes("Linkedin.html") || url.includes("Github.html") || url.includes("greeting") || url.includes("postId")) {
+    if(!url.includes(".md") || !url.includes("/blogpost/"))
         return false;
-    }
+
+    if(url.includes("_desc") || url.includes("greeting"))
+        return false;
+
 
     return true;
 }
