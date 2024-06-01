@@ -134,7 +134,7 @@ async function handle_http(req: Request) {
     headers.append("content-type", get_content_type(format));
 
     // record visit (time and resource requested)
-    if(format == "html" || format == "md") {
+    if(format == "html" || format == "md" || format == "pdf") {
         record_visit(url.toJSON(), format);
     }
 
@@ -171,7 +171,7 @@ async function record_visit(requested_path: string, format: string) {
     const date_string = "[" + date_year + " " + date_month_string + " " + date_day + ", " + date_hour + ":" + date_minute + ":" + date_seconds + "]";
 
     // create record (date + resource requested)
-    const record = date_string + " type=" + format.toUpperCase() + (format.length < 4 ? "  " :  "") + " URL=" + requested_path + "\n";
+    const record = date_string + " type=" + format.toUpperCase() + (format.length == 2 ? "  " :  (format.length == 3 ? " ": "")) + " URL=" + requested_path + "\n";
 
     // encode record to Uint8Array which is what Deno.writeFile accepts.
     const encoder = new TextEncoder();
@@ -216,7 +216,7 @@ function parse_month(date:number): string {
 // choppy whitelist function to reduce cluster in records.log
 function whitelist_Url(url: string): boolean {
 
-    if(!url.includes(".md") && !url.includes("/blogpost/"))
+    if(!url.includes(".md") && !url.includes("/blogpost/") && !url.includes(".pdf"))
         return false;
 
     if(url.includes("_desc") || url.includes("greeting"))
