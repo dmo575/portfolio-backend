@@ -28,8 +28,9 @@
 // constants
 const root = "./dist";
 const index = "index.html";
-const port = 80;
+const port = 8000;
 const records =  "./records.log";
+const time_offset = -4;
 
 
 async function get_file(path: string) {
@@ -159,6 +160,7 @@ async function record_visit(requested_path: string, format: string) {
 
     // get the date
     const date = new Date();
+    date.setHours(date.getHours() + time_offset);
     const date_year = date.getFullYear();
     const date_month = date.getMonth();
     const date_month_string = parse_month(date_month);
