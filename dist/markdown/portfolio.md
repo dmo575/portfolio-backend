@@ -8,7 +8,7 @@ I have a [blog-post](./blogpost/blogpost.html) where you can find me expanding o
 ### The big picture
 As I made the website, I realized that if I was to manage its content over the coming months I needed a solution for data storage and creation.
 
-I started researching and the final solution that I came up with has to do with two main topics: data storage and data serving. I ended up going fairly deep for a first dive on this topic and **wrote an entire post about how and when to use import statements and fetch with Vitejs** [(Please check it out on my blog-post!)](./blogpost/blogpost.html)
+I started researching and the final solution that I came up with has to do with two main topics: data storage and data serving. I ended up going fairly deep for a first dive on this topic and **wrote an entire post about how and when to use import statements and fetch with Vitejs** [(Link to it here)](./blogpost/blogpost.html)
 
 ![{"className": "img-md float-end img-w-s"}](./images/markdown/portfolio/folders.png)
 Long story short, I ended up using JSON and Markdown as the formats for saving my static and components data and, after researching how Vitejs bundled its applications, the obvious solution for where to save the data were the `public/` and the `src/assets/` directories.
