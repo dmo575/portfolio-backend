@@ -1,4 +1,4 @@
-I'm Alfredo, a **$$Web developer**  that focuses on learning about both the front and back end in order to bring websites to live.
+I'm Alfredo, a **$$Web developer**  that focuses on learning about both the front and back end in order to bring websites to life.
 
 
 I also enjoy learning about Back-end and anything else related to web development.
