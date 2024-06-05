@@ -24,19 +24,6 @@ Any fetch request that goes wrong will trigger an Error message to be sent to th
 
 **A note on the page:** I did not completely separate all the data from the components. Being this a small portfolio web-page I only separated the things I thought I would ever want to change.
 
-### Custom markdown
-Thanks to **react-markdown**'s ability to pass in customs components, I was able to customize my own markdown.
-
-```
-Here is how you write the special bold text:
-**$$Big size special bold text**
-**$$$Small size special bold text**
-
-Here is how you customize images:
-![{"width": "50%", "someOtherAttribute": "someValue"}](./img/path.svg)
-
-Also, the code-block style is custom, I added the border and background color to it.
-```
 ### Full-stack
 I wrote the back-end for this project. While I worked within the Node runtime environment for the front-end, I used Deno and its built-in server solutions for the back-end. Writting the back-end gave me the chance to refresh some I/O concepts and I ended up [writing about them on my blog-post](./blogpost/blogpost.html)
 
