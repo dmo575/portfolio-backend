@@ -1,7 +1,7 @@
 I'm Alfredo, a **$$Web developer** who loves bringing websites to life with the help of React, Bootstrap and the big three (JS/HTML/CSS).
 
 
-I also enjoy **$$$learning** about Back-end and **$$$anything** tech really (Linux, game engines, you name it!)
+I also enjoy learning about Back-end and anything else related to web development.
 
 
-If you like my portfolio, please let me know at **$$arodrigu47aoa@gmail.com !**
+If you like my portfolio, please let me know at **$$arodrigu47aoa@gmail.com**
