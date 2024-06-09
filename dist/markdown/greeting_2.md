@@ -1,5 +1,5 @@
 - Bachelor in Game Design & Development
-- Certified ISTQB Software Tester
-- Successfully completed Revature's PEP training (Backend, Java)
+- [Certified ASTQB Software Tester](https://atsqa.org/certified-testers/profile/edf6e5561de048fcab62dc460c62fcce)
+- Successfully completed [Revature's](https://start.revature.com/companies) PEP training (Backend, Java)
 - Several projects that involve both frontend and backend
-- HarvardX's CS50 - Certificate
+- [HarvardX's CS50](https://courses.edx.org/certificates/88e622a6b2bb4996bccef6707cc9b10a) - Certificate
