@@ -218,9 +218,15 @@ function parse_month(date:number): string {
 // choppy whitelist function to reduce cluster in records.log
 function whitelist_Url(url: string): boolean {
 
+    // filters out requests not using the domain name (most bots)
+    if(!url.includes("alfredcode.com"))
+        return false;
+
+    // filters out requests that don't consume any of the main content like project descriptions (.md), the CV or a blogpost interaction
     if(!url.includes(".md") && !url.includes("/blogpost/") && !url.includes(".pdf"))
         return false;
 
+    // filters out some markdown files that I send with the index page
     if(url.includes("_desc") || url.includes("greeting"))
         return false;
 
