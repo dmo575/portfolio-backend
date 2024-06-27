@@ -136,7 +136,7 @@ async function handle_http(req: Request) {
 
     // record visit (time and resource requested)
     if(format == "html" || format == "md" || format == "pdf") {
-        record_visit(url.toJSON(), format);
+        record_visit(url.toJSON(), format, url.searchParams.get("ref"));
     }
 
     // try to get the file
@@ -153,7 +153,7 @@ async function handle_http(req: Request) {
 }
 
 // This just saves what pages the clients visit
-async function record_visit(requested_path: string, format: string) {
+async function record_visit(requested_path: string, format: string, ref: string | null) {
 
     // I blacklisted some URLs to avoid cluttering the records.log file
     if(!whitelist_Url(requested_path)) return;
@@ -170,17 +170,34 @@ async function record_visit(requested_path: string, format: string) {
     const date_seconds = date.getSeconds();
 
     // date in string form
-    const date_string = "[" + date_year + " " + date_month_string + " " + date_day + ", " + date_hour + ":" + date_minute + ":" + date_seconds + "]";
+    const date_str = get_data_str("", "[" + date_year + " " + date_month_string + " " + date_day + ", " + date_hour + ":" + date_minute + ":" + date_seconds + "]", 23);
 
-    // create record (date + resource requested)
-    const record = date_string + " type=" + format.toUpperCase() + (format.length == 2 ? "  " :  (format.length == 3 ? " ": "")) + " URL=" + requested_path + "\n";
+    // resource format
+    const format_str = get_data_str("type", format.toUpperCase(), 9);
+
+    // from where the link comes
+    const ref_str = get_data_str("ref", ref?.toUpperCase() || "???", 5);
+
+    // the URL
+    const url_str = "URL=" + requested_path;
 
     // encode record to Uint8Array which is what Deno.writeFile accepts.
     const encoder = new TextEncoder();
-    const record_encoded = encoder.encode(record);
+    const record_encoded = encoder.encode(date_str + " " + format_str + " " + ref_str + " " + url_str + "\n");
 
     // record it
     await Deno.writeFile(records, record_encoded, { append: true });
+}
+
+function get_data_str(type: string, data: string, space: number): string {
+
+    let str = type+(type.length > 0 ? "=" : "")+data;
+
+    for(let i = str.length; i < space; i++) {
+        str = str + " ";
+    }
+
+    return str;
 }
 
 // returns the string abreviature of a month
@@ -218,8 +235,12 @@ function parse_month(date:number): string {
 // choppy whitelist function to reduce cluster in records.log
 function whitelist_Url(url: string): boolean {
 
+    // we first sort the links that contain the ref query parameter. Since we use that param in our links, we can allow them all.
+    if(url.includes("?ref=") && url.includes("localhost:8000"))
+        return true;
+
     // filters out requests not using the domain name (most bots)
-    if(!url.includes("alfredcode.com"))
+    if(!url.includes("alfredcode.com") || !url.includes("localhost:8000"))
         return false;
 
     // filters out requests that don't consume any of the main content like project descriptions (.md), the CV or a blogpost interaction
@@ -229,7 +250,6 @@ function whitelist_Url(url: string): boolean {
     // filters out some markdown files that I send with the index page
     if(url.includes("_desc") || url.includes("greeting"))
         return false;
-
 
     return true;
 }

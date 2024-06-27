@@ -14,7 +14,7 @@
                 "html",
                 "css"
             ],
-            "content": "./markdown/portfolio.md",
+            "content": "./markdown/portfolio.md?ref=in",
             "links": [
                 {"name": "Check code (client)", "url": "https://github.com/dmo575/portfolio" },
                 {"name": "Check code (server)", "url": "https://github.com/dmo575/portfolio-backend" }
@@ -33,7 +33,7 @@
                 "html",
                 "css"
             ],
-            "content": "./markdown/calculatormaster.md",
+            "content": "./markdown/calculatormaster.md?ref=in",
             "links": [
                 {"name": "See it live", "url": "http://146.190.125.135:80" },
                 {"name": "Check code", "url": "https://github.com/dmo575/CalculatorMaster" }
@@ -52,7 +52,7 @@
                 "html",
                 "css"
             ],
-            "content": "./markdown/mymovies.md",
+            "content": "./markdown/mymovies.md?ref=in",
             "links": [
                 {"name": "See video", "url": "https://www.youtube.com/watch?v=HkbZu71cfN8" },
                 {"name": "Check code", "url": "https://github.com/dmo575/mymovies" }
@@ -66,7 +66,7 @@
             "tech": [
                 "webflow"
             ],
-            "content": "./markdown/arc.md",
+            "content": "./markdown/arc.md?ref=in",
             "links": [
             ],
             "skipTo": "https://arc-gameworks.webflow.io/"
