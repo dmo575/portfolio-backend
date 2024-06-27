@@ -15,7 +15,7 @@ I do have other projects where I specifically focus on the backend (Java, Spring
 - [Java + Javalin: Social media blog API](https://github.com/dmo575/dmo575-pep-project)
 - [Java + Spring Boot: Social media blog API](https://github.com/dmo575/dmo575-pep-spring-project)
 
-I also wrote about what I learnt about Vitejs while looking for a way of storing my website's data (that involved no database), you can check it out [here](http://alfredcode.com/postViewer/postViewer.html?ref=crd&postId=t01).
+I also wrote about what I learnt about Vitejs while looking for a way of storing my website's data (that involved no database), you can check it out [here](http://alfredcode.com/postViewer/postViewer.html?postId=t01).
 
 ### React
 As I built the project, it became clear to me how good React was at helping me create reusable, maintainable code by combining the idea of components with the paradigm of functional programming. It was a great experience for me to use it for this project, as I was able to see first hand what React has to offer (Compartmentalization of code via components and the ability they have to react to any changes and send information to one another) and where it lacks (Bootstrap compatibility, no Markdown support). Sticking to it and finding workarounds for its shortcomings as well as leveraging its best features gave me a good sense of what it feels like to build and maintain a real life project.
