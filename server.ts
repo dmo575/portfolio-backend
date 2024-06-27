@@ -236,11 +236,11 @@ function parse_month(date:number): string {
 function whitelist_Url(url: string): boolean {
 
     // we first sort the links that contain the ref query parameter. Since we use that param in our links, we can allow them all.
-    if(url.includes("?ref=") && url.includes("localhost:8000"))
+    if(url.includes("?ref=") && url.includes("alfredcode.com"))
         return true;
 
     // filters out requests not using the domain name (most bots)
-    if(!url.includes("alfredcode.com") || !url.includes("localhost:8000"))
+    if(!url.includes("alfredcode.com"))
         return false;
 
     // filters out requests that don't consume any of the main content like project descriptions (.md), the CV or a blogpost interaction
